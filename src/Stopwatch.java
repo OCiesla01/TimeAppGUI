@@ -40,12 +40,14 @@ public class Stopwatch extends JFrame implements ActionListener {
         start.setBackground(new Color(0xB4B4B4));
         start.setBorder(BorderFactory.createLineBorder(new Color(0x9B9B9B), 5));
         start.addActionListener(this);
+        start.setFocusable(false);
 
         reset = new JButton("RESET");
         reset.setBounds(270, 520, 100, 50);
         reset.setBackground(new Color(0xB4B4B4));
         reset.setBorder(BorderFactory.createLineBorder(new Color(0x9B9B9B), 5));
         reset.addActionListener(this);
+        reset.setFocusable(false);
 
         mainLabel = new JLabel(hours_string + ":" + minutes_string + ":" + seconds_string);
         mainLabel.setHorizontalAlignment(JTextField.CENTER);
