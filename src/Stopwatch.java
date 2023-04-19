@@ -83,7 +83,6 @@ public class Stopwatch extends JFrame implements ActionListener {
         } else if (e.getSource() == start) {
             if (!isStarted) {
                 start.setText("STOP");
-                isStarted = true;
                 start();
             } else {
                 start.setText("START");
@@ -95,6 +94,7 @@ public class Stopwatch extends JFrame implements ActionListener {
         }
     }
     void start() {
+        isStarted = true;
         timer.start();
     }
     void stop() {
