@@ -3,19 +3,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class Stopwatch extends JFrame implements ActionListener {
-    JButton backToMain;
-    JLabel topLine;
-    JLabel mainLabel;
-    JButton start;
-    JButton reset;
+    JButton backToMain, start, reset;
+    JLabel topLine, mainLabel;
     boolean isStarted = false;
     int elapsedTime = 0;
-    int hours = 0;
-    int minutes = 0;
-    int seconds = 0;
-    String hours_string = String.format("%02d", hours);
-    String minutes_string = String.format("%02d", minutes);
-    String seconds_string = String.format("%02d", seconds);
+    int hours = 0, minutes = 0, seconds = 0;
+    String hours_string = String.format("%02d", hours),
+            minutes_string = String.format("%02d", minutes),
+            seconds_string = String.format("%02d", seconds);
     Timer timer = new Timer(1000, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {

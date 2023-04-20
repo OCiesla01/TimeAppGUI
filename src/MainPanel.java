@@ -1,6 +1,9 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class MainPanel extends JFrame implements ActionListener {
     JButton openStopwatch;
@@ -32,7 +35,15 @@ public class MainPanel extends JFrame implements ActionListener {
             new Stopwatch();
         } else if (e.getSource() == openCountdown) {
             this.dispose();
-            new Countdown();
+            try {
+                new Countdown();
+            } catch (LineUnavailableException ex) {
+                throw new RuntimeException(ex);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (UnsupportedAudioFileException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 }
