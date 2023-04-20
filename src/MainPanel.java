@@ -37,11 +37,7 @@ public class MainPanel extends JFrame implements ActionListener {
             this.dispose();
             try {
                 new Countdown();
-            } catch (LineUnavailableException ex) {
-                throw new RuntimeException(ex);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            } catch (UnsupportedAudioFileException ex) {
+            } catch (LineUnavailableException | UnsupportedAudioFileException | IOException ex) {
                 throw new RuntimeException(ex);
             }
         }
