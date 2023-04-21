@@ -29,6 +29,7 @@ public class Stopwatch extends JFrame implements ActionListener {
         this.setSize(500, 700);
         this.setResizable(false);
         this.setLayout(null);
+        this.setTitle("Stopwatch");
 
         start = new JButton("START");
         start.setBounds(100, 520, 100, 50);

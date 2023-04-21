@@ -27,6 +27,7 @@ public class Countdown extends JFrame implements ActionListener {
         this.setSize(500, 700);
         this.setResizable(false);
         this.setLayout(null);
+        this.setTitle("Countdown Timer");
 
         mainLabel = new JLabel("0" + minutes + ":" + "0" + seconds);
         mainLabel.setHorizontalAlignment(JTextField.CENTER);
