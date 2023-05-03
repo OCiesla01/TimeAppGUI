@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class MainPanel extends JFrame implements ActionListener {
-    JButton openStopwatch, openCountdown, openClock;
+    JButton openStopwatch, openCountdown, openClock, openWorkoutTimer;
     MainPanel() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(500, 700);
@@ -28,6 +28,12 @@ public class MainPanel extends JFrame implements ActionListener {
         openClock.setFocusable(false);
         openClock.addActionListener(this);
 
+        openWorkoutTimer = new JButton("Workout Timer");
+        openWorkoutTimer.setBounds(100, 200, 150, 50);
+        openWorkoutTimer.setFocusable(false);
+        openWorkoutTimer.addActionListener(this);
+
+        this.add(openWorkoutTimer);
         this.add(openClock);
         this.add(openCountdown);
         this.add(openStopwatch);
@@ -42,12 +48,15 @@ public class MainPanel extends JFrame implements ActionListener {
             this.dispose();
             try {
                 new Countdown();
-            } catch (LineUnavailableException | UnsupportedAudioFileException | IOException ex) {
+            } catch (LineUnavailableException | IOException | UnsupportedAudioFileException ex) {
                 throw new RuntimeException(ex);
             }
         } else if (e.getSource() == openClock) {
             this.dispose();
             new Clock();
+        } else if (e.getSource() == openWorkoutTimer) {
+            this.dispose();
+            new WorkoutTimer();
         }
     }
 }
