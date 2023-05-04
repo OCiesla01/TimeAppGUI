@@ -5,12 +5,12 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 public class WorkoutTimer extends JFrame implements ActionListener {
-    JButton backToMain, startWorkout;
+    JButton backToMain, startStopWorkout, resetWorkout;
     JLabel topLine, botLine, workTimeLabel, restTimeLabel, workTimeText, restTimeText, workoutText, restText;
     JTextField setWorkTime, setRestTime;
-    int workTime = 5, restTime = 5, formattedWorkMin, formattedWorkSec, formattedRestMin, formattedRestSec;
+    int workTime = 0, restTime = 0, formattedWorkMin, formattedWorkSec, formattedRestMin, formattedRestSec;
     String ddWorkTimeMin, ddWorkTimeSec, ddRestTimeMin, ddRestTimeSec;
-    boolean isWorkTime = true;
+    boolean isWorkTime = true, isWorking = false;
     DecimalFormat dFormat = new DecimalFormat("00");
     Timer timer;
     WorkoutTimer() {
@@ -36,7 +36,7 @@ public class WorkoutTimer extends JFrame implements ActionListener {
         botLine.setOpaque(true);
 
         workTimeLabel = new JLabel();
-        workTimeLabel.setText("00");
+        workTimeLabel.setText("00" + ":" + workTime + "0");
         workTimeLabel.setBounds(40, 60, 400, 200);
         workTimeLabel.setHorizontalAlignment(JTextField.CENTER);
         workTimeLabel.setVerticalAlignment(JTextField.CENTER);
@@ -46,8 +46,8 @@ public class WorkoutTimer extends JFrame implements ActionListener {
         workTimeLabel.setOpaque(true);
 
         restTimeLabel = new JLabel();
-        restTimeLabel.setText("00");
-        restTimeLabel.setBounds(110, 280, 250, 150);
+        restTimeLabel.setText("00" + ":" + restTime + "0");
+        restTimeLabel.setBounds(110, 290, 250, 150);
         restTimeLabel.setHorizontalAlignment(JTextField.CENTER);
         restTimeLabel.setVerticalAlignment(JTextField.CENTER);
         restTimeLabel.setFont(new Font("MV Boli", Font.BOLD, 50));
@@ -56,37 +56,53 @@ public class WorkoutTimer extends JFrame implements ActionListener {
         restTimeLabel.setOpaque(true);
 
         workoutText = new JLabel("Work time");
-        workoutText.setBounds(175, 0, 100, 50);
-        workoutText.setForeground(Color.red);
+        workoutText.setBounds(115, 10, 200, 50);
+        workoutText.setForeground(new Color(0x858585));
+        workoutText.setFont(new Font("Georgia", Font.PLAIN, 40));
 
         restText = new JLabel("Rest time");
-        restText.setBounds(100, 0, 100, 50);
-        restText.setForeground(Color.red);
+        restText.setBounds(75, 0, 200, 50);
+        restText.setForeground(new Color(0x858585));
+        restText.setFont(new Font("Georgia", Font.PLAIN, 25));
 
         setWorkTime = new JTextField();
-        setWorkTime.setBounds(120, 560, 40, 60);
-        setWorkTime.setFont(new Font("Roboto", Font.PLAIN, 15));
+        setWorkTime.setBounds(20, 575, 60, 60);
+        setWorkTime.setFont(new Font("Roboto", Font.PLAIN, 35));
+        setWorkTime.setBackground(new Color(0x9A9A9A));
+        setWorkTime.setBorder(BorderFactory.createLineBorder(new Color(0x6C6C6C), 3));
 
         setRestTime = new JTextField();
-        setRestTime.setBounds(400, 560, 40, 60);
-        setRestTime.setFont(new Font("Roboto", Font.PLAIN, 15));
+        setRestTime.setBounds(400, 575, 60, 60);
+        setRestTime.setFont(new Font("Roboto", Font.PLAIN, 35));
+        setRestTime.setBackground(new Color(0x9A9A9A));
+        setRestTime.setBorder(BorderFactory.createLineBorder(new Color(0x6C6C6C), 3));
 
         workTimeText = new JLabel("Set work time");
-        workTimeText.setBounds(20, 570, 100, 25);
+        workTimeText.setBounds(100, 590, 100, 25);
+        workTimeText.setFont(new Font("Georgia", Font.PLAIN, 15));
 
         restTimeText = new JLabel("Set rest time");
-        restTimeText.setBounds(300, 570, 100, 25);
+        restTimeText.setBounds(300, 590, 100, 25);
+        restTimeText.setFont(new Font("Georgia", Font.PLAIN, 15));
 
-        startWorkout = new JButton();
-        startWorkout.setBounds(212, 475, 40, 40);
-        startWorkout.setFocusable(false);
-        startWorkout.addActionListener(this);
+        startStopWorkout = new JButton();
+        startStopWorkout.setText("Start");
+        startStopWorkout.setBounds(250, 475, 70, 40);
+        startStopWorkout.setFocusable(false);
+        startStopWorkout.addActionListener(this);
+
+        resetWorkout = new JButton();
+        resetWorkout.setText("Reset");
+        resetWorkout.setBounds(150, 475, 70, 40);
+        resetWorkout.setFocusable(false);
+        resetWorkout.addActionListener(this);
 
 
         workTimeLabel.add(workoutText);
         restTimeLabel.add(restText);
 
-        this.add(startWorkout);
+        this.add(resetWorkout);
+        this.add(startStopWorkout);
         this.add(workTimeText);
         this.add(restTimeText);
         this.add(setWorkTime);
@@ -104,32 +120,50 @@ public class WorkoutTimer extends JFrame implements ActionListener {
             this.dispose();
             new MainPanel();
         }
-        if (e.getSource() == startWorkout) {
-            if (confirmTime()) {
-                formatTime();
-                timer = new Timer(1000, e1 -> {
-                    if (isWorkTime) {
-                        if (workTime > 0) {
-                            workTime--;
-                            formatTime();
-                        } else {
-                            isWorkTime = false;
-                            workTime = Integer.parseInt(setWorkTime.getText());
-                        }
+        if (e.getSource() == resetWorkout) {
+            isWorking = false;
+            isWorkTime = true;
+            startStopWorkout.setText("Start");
+            workTimeLabel.setText("00:00");
+            restTimeLabel.setText("00:00");
+            setRestTime.setText("");
+            setWorkTime.setText("");
+            timer.stop();
+        }
+        if (e.getSource() == startStopWorkout) {
+            if (isWorking) {
+                startStopWorkout.setText("Start");
+                isWorking = false;
+                timer.stop();
+            } else {
+                if (confirmTime()) {
+                    timer = new Timer(1000, e1 -> {
+                        if (isWorkTime) {
+                            if (workTime > 0) {
+                                workTime--;
+                                formatTime();
+                            } else {
+                                isWorkTime = false;
+                                workTime = Integer.parseInt(setWorkTime.getText());
+                            }
 
-                    }
-                    if (!isWorkTime) {
-                        if (restTime > 0) {
-                            restTime--;
-                            formatTime();
-                        } else {
-                            isWorkTime = true;
-                            restTime = Integer.parseInt(setRestTime.getText());
                         }
-                    }
-                });
-                timer.start();
+                        if (!isWorkTime) {
+                            if (restTime > 0) {
+                                restTime--;
+                                formatTime();
+                            } else {
+                                isWorkTime = true;
+                                restTime = Integer.parseInt(setRestTime.getText());
+                            }
+                        }
+                    });
+                    startStopWorkout.setText("Stop");
+                    isWorking = true;
+                    timer.start();
+                }
             }
+
         }
     }
     public boolean confirmTime() {
@@ -141,7 +175,7 @@ public class WorkoutTimer extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "It has to be Integer. You can't workout on Strings.",
                     "Entered time error", JOptionPane.ERROR_MESSAGE);
         }
-        if (workTime == 0 && restTime == 0) {
+        if (workTime == 0 || restTime == 0) {
             JOptionPane.showMessageDialog(null, "Come on... That's not a workout",
                     "Entered time error", JOptionPane.ERROR_MESSAGE);
         } else if (workTime > 3600) {
