@@ -111,7 +111,7 @@ public class Countdown extends JFrame implements ActionListener {
         timeOverB.setVisible(false);
         timeOverB.addActionListener(this);
 
-        file = new File("countdownSound.wav");
+        file = new File("Sounds/countdownSound.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         clip = AudioSystem.getClip();
         clip.open(audioStream);
