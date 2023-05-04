@@ -1,7 +1,10 @@
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 public class WorkoutTimer extends JFrame implements ActionListener {
@@ -13,6 +16,8 @@ public class WorkoutTimer extends JFrame implements ActionListener {
     boolean isWorkTime = true, isWorking = false;
     DecimalFormat dFormat = new DecimalFormat("00");
     Timer timer;
+    File file1, file2;
+    Clip clip1, clip2;
     WorkoutTimer() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(500, 700);
@@ -117,6 +122,8 @@ public class WorkoutTimer extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backToMain) {
+            clip1.close();
+            clip2.close();
             this.dispose();
             new MainPanel();
         }
@@ -128,6 +135,8 @@ public class WorkoutTimer extends JFrame implements ActionListener {
             restTimeLabel.setText("00:00");
             setRestTime.setText("");
             setWorkTime.setText("");
+            clip1.stop();
+            clip2.stop();
             timer.stop();
         }
         if (e.getSource() == startStopWorkout) {
@@ -144,6 +153,24 @@ public class WorkoutTimer extends JFrame implements ActionListener {
                                 formatTime();
                             } else {
                                 isWorkTime = false;
+                                file1 = new File("Sounds/restover.wav");
+                                AudioInputStream audioStream1;
+                                try {
+                                    audioStream1 = AudioSystem.getAudioInputStream(file1);
+                                } catch (UnsupportedAudioFileException | IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                try {
+                                    clip1 = AudioSystem.getClip();
+                                } catch (LineUnavailableException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                try {
+                                    clip1.open(audioStream1);
+                                } catch (LineUnavailableException | IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                clip1.start();
                                 workTime = Integer.parseInt(setWorkTime.getText());
                             }
 
@@ -154,6 +181,24 @@ public class WorkoutTimer extends JFrame implements ActionListener {
                                 formatTime();
                             } else {
                                 isWorkTime = true;
+                                file2 = new File("Sounds/workover.wav");
+                                AudioInputStream audioStream2;
+                                try {
+                                    audioStream2 = AudioSystem.getAudioInputStream(file2);
+                                } catch (UnsupportedAudioFileException | IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                try {
+                                    clip2 = AudioSystem.getClip();
+                                } catch (LineUnavailableException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                try {
+                                    clip2.open(audioStream2);
+                                } catch (LineUnavailableException | IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                clip2.start();
                                 restTime = Integer.parseInt(setRestTime.getText());
                             }
                         }

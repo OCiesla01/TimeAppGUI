@@ -84,7 +84,7 @@ public class MainPanel extends JFrame implements ActionListener {
         openWorkoutTimer.addActionListener(this);
 
         workoutTimerT = new JLabel("Workout");
-        workoutTimerT.setBounds(300, 565, 200, 50);
+        workoutTimerT.setBounds(295, 565, 200, 50);
         workoutTimerT.setFont(new Font("MV Boli", Font.PLAIN, 35));
 
         click = new JButton("Click on icon");
