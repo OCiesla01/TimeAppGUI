@@ -130,6 +130,8 @@ public class WorkoutTimer extends JFrame implements ActionListener {
         if (e.getSource() == resetWorkout) {
             isWorking = false;
             isWorkTime = true;
+            setWorkTime.setEditable(true);
+            setRestTime.setEditable(true);
             startStopWorkout.setText("Start");
             workTimeLabel.setText("00:00");
             restTimeLabel.setText("00:00");
@@ -205,6 +207,8 @@ public class WorkoutTimer extends JFrame implements ActionListener {
                     });
                     startStopWorkout.setText("Stop");
                     isWorking = true;
+                    setWorkTime.setEditable(false);
+                    setRestTime.setEditable(false);
                     timer.start();
                 }
             }

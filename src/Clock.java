@@ -26,9 +26,8 @@ public class Clock extends JFrame implements ActionListener {
         dateFormat = new SimpleDateFormat("dd MMMMM yyyy");
         date = dateFormat.format(Calendar.getInstance().getTime());
 
-
         dayLabel = new JLabel();
-        dayLabel.setBounds(110, 270, 400, 50);
+        dayLabel.setBounds(115, 270, 400, 50);
         dayLabel.setFont(new Font("Oswald", Font.PLAIN, 35));
         dayLabel.setOpaque(true);
         dayLabel.setText(day + ", " + date);

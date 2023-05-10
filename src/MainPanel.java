@@ -135,17 +135,7 @@ public class MainPanel extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == click) {
-            if (!arrow1.isVisible()) {
-                arrow1.setVisible(true);
-                arrow2.setVisible(true);
-                arrow3.setVisible(true);
-                arrow4.setVisible(true);
-            } else {
-                arrow1.setVisible(false);
-                arrow2.setVisible(false);
-                arrow3.setVisible(false);
-                arrow4.setVisible(false);
-            }
+            setArrowsVisibility();
         }
         if (e.getSource() == openStopwatch) {
             this.dispose();
@@ -163,6 +153,19 @@ public class MainPanel extends JFrame implements ActionListener {
         } else if (e.getSource() == openWorkoutTimer) {
             this.dispose();
             new WorkoutTimer();
+        }
+    }
+    public void setArrowsVisibility() {
+        if (!arrow1.isVisible()) {
+            arrow1.setVisible(true);
+            arrow2.setVisible(true);
+            arrow3.setVisible(true);
+            arrow4.setVisible(true);
+        } else {
+            arrow1.setVisible(false);
+            arrow2.setVisible(false);
+            arrow3.setVisible(false);
+            arrow4.setVisible(false);
         }
     }
 }

@@ -67,7 +67,6 @@ public class Countdown extends JFrame implements ActionListener {
         acceptTimeInput.setFocusable(false);
         acceptTimeInput.addActionListener(this);
 
-
         start = new JButton("START");
         start.setBounds(100, 570, 100, 50);
         start.setBackground(new Color(0xB4B4B4));
